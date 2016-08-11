@@ -19,3 +19,6 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
 # Prevents a frame from serving content from another frame. Suggested to set as false for production, but may change with content generation. We will see.
 X_FRAME_OPTIONS = 'DENY'
+
+# Location of static files. This path must be an absolute path.
+STATIC_ROOT = "/home/dusnei/knightsofclimbalot.com/public/static"
