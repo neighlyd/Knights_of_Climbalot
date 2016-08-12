@@ -47,11 +47,6 @@ INSTALLED_APPS += [
     'allauth.socialaccount.providers.facebook',
 ]
 
-# SITE_ID is used by django frameworks. To equal the ID of the site in the admin database under Sites/sites
-# This value must equal the site's ID in Django's database.
-# The documentation on this setting is absolute shit. See http://goo.gl/mqtNGn
-SITE_ID = 2
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
