@@ -45,14 +45,14 @@
           <ul class="nav navbar-nav navbar-right">
           {% if user.is_authenticated %}
             <li><a href="#" id="account">Account</a></li>
-            <li><a href="#" id="logout">Logout</a></li>
+            <li><a href="{% url 'logout' %}" id="logout">Logout</a></li>
           {% else %}
             <li><a href="#">Sign-Up</a></li>
             <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#" id="login_menu">login  <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="#" id="climbalot_login">Climbalot Login</a></li>
-                <li><a href="#" id="google_login">Google Login</a></li>
-                <li><a href="#" id="facebook_login">Facebook Login</a></li>
+                <li><a href="accounts/login" id="climbalot_login">Climbalot Login</a></li>
+                <li><a href="/accounts/google/login" id="google_login">Google Login</a></li>
+                <li><a href="/accounts/facebook/login" id="facebook_login">Facebook Login</a></li>
               </ul>
           {% endif %}
         </ul>

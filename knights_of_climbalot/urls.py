@@ -15,8 +15,16 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'', include('index.urls'))
+]
+
+# Authentication URLs go here. Since we are using allauth for our account management, we set up a base accounts url that redirects to the urls provided by the allauth module.
+
+urlpatterns += [
+    url(r'^accounts/', include('allauth.urls')),
+    url(r'^accounts/logout/', auth_views.logout, {'next page' : '/'}, name='logout')
 ]

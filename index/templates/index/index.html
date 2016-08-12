@@ -9,7 +9,11 @@ Knights of Climbalot
 <div class="jumbotron">
   <div class="container">
     {% block jumbotron %}
-    <h1>Hey, folks!</h1>
+    {% if user.is_authenticated %}
+      <h1>Hey, {{ user.first_name }}</h1>
+    {% else %}
+      <h1>Hey, folks!</h1>
+    {% endif %}
     <h1>Welcome to Knights of Climbalot!</h1>
     <p>We will be entering our beta-test period soon.</p>
     <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>

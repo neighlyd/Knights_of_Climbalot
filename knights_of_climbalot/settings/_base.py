@@ -10,12 +10,18 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
+"""
+We are using the django-allauth module to integrate various social media logins into the site.
+To see what settings are necessary for django-allauth to work, see
+http://goo.gl/QPKJFY
+"""
+
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-# Application definition
+# Base application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -26,6 +32,25 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'index',
 ]
+
+# Allauth apps.
+
+INSTALLED_APPS += [
+    # Django site's framework is required.
+    'django.contrib.sites',
+    # generic allauth apps that apply to all authentication using allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    # Specific allauth apps for various social providers. For more information see http://goo.gl/2VKRIt
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
+]
+
+# SITE_ID is used by django frameworks. To equal the ID of the site in the admin database under Sites/sites
+# This value must equal the site's ID in Django's database.
+# The documentation on this setting is absolute shit. See http://goo.gl/mqtNGn
+SITE_ID = 2
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -50,12 +75,22 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # Required by django-allauth template tags
+                'django.template.context_processors.request',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'knights_of_climbalot.wsgi.application'
+
+# Authentication backends needed by django-allauth.
+AUTHENTICATION_BACKENDS = [
+    # Default backend - used to log into DJango admin by username.
+    'django.contrib.auth.backends.ModelBackend',
+    # Allauth specific authentication methods, such as login by e-mail.
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -94,6 +129,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Login and Account requirements, as well as Login redirect.
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "none"
+SOCIAL_ACCOUNT_QUERY_EMAIL = True
+LOGIN_REDIRECT_URL = "/"
 
 # SECRET_KEY and Database information stored in secret_settings.py which is excluded from git through .gitignore.
 # Import SECRET_KEY and Database information. Ensure that the secret_settings.py file is the correct one before using.
