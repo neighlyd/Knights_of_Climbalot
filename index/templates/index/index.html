@@ -4,29 +4,28 @@
 Knights of Climbalot
 {% endblock title %}
 
-{% block content %}
-<!-- Main jumbotron for a primary marketing message or call to action -->
+{% block jumbotron %}
 <div class="jumbotron">
   <div class="container">
-    {% block jumbotron %}
-    {% if user.is_authenticated %}
-      {% if user.first_name %}
-        <h1>Hey, {{ user.first_name }}</h1>
-      {% else %}
-        <h1>Hey!</h1>
-        <p> Well, this is embarassing, but it seems that I don't actually know your name.</p>
-      {% endif %}
-    {% else %}
-      <h1>Hey, folks!</h1>
-    {% endif %}
+
     <h1>Welcome to Knights of Climbalot!</h1>
+      {% if user.is_authenticated %}
+        {% if user.first_name %}
+          <h1>Hey, {{ user.first_name }}!</h1>
+        {% else %}
+          <h1>Hey!</h1>
+          <p> Well, this is embarassing, but it seems that I don't actually know your name.</p>
+        {% endif %}
+      {% else %}
+        <h1>Hey, folks!</h1>
+      {% endif %}
     <p>We will be entering our beta-test period soon.</p>
     <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
-    {% endblock jumbotron %}
-  </div>
 </div>
+</div>
+{% endblock jumbotron %}
 
-<div class="container">
+{% block content %}
   <!-- Example row of columns -->
   <div class="row">
     <div class="col-md-4">
@@ -44,7 +43,6 @@ Knights of Climbalot
       <p>We don't do fake Latin here at Knights of Climbalot. Fuck Lorem Ipsum.</p>
       <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
     </div>
-  </div>
 
   <hr>
 
