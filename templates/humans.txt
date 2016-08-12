@@ -1,0 +1,19 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    Dustin Neighly -- Code-Monkey
+    Natasha Lewandrowski -- Idea-Monkey
+    Steve Foley -- Test-Monkey
+
+# THANKS
+
+    Thanks to Sonia Lei and Matt Swanson for being radness incarnate. Thanks to Jane McGonigal for helping spur the idea.
+
+# TECHNOLOGY COLOPHON
+    Django
+    HTML5, CSS3
+    Bootstrap
+    jQuery, Modernizr
+    Selenium, Coverage (gotta appease that Testing Goat)
