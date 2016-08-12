@@ -50,9 +50,9 @@
             <li><a href="#">Sign-Up</a></li>
             <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#" id="login_menu">login  <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="accounts/login" id="climbalot_login">Climbalot Login</a></li>
-                <li><a href="/accounts/google/login" id="google_login">Google Login</a></li>
-                <li><a href="/accounts/facebook/login" id="facebook_login">Facebook Login</a></li>
+                <li><a href="{% url 'account_login' %}" id="climbalot_login">Climbalot Login</a></li>
+                <li><a href="{% url 'google_login' %}" id="google_login">Google Login</a></li>
+                <li><a href="{% url 'facebook_login' %}" id="facebook_login">Facebook Login</a></li>
               </ul>
           {% endif %}
         </ul>
@@ -80,6 +80,26 @@
             r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
             ga('create','UA-XXXXX-X','auto');ga('send','pageview');
         </script>
+
+        <!-- Remove #_=_ after URL following Facebook social login -->
+        <script type="text/javascript">
+        if (window.location.hash && window.location.hash == '#_=_') {
+          if (window.history && history.pushState) {
+              window.history.pushState("", document.title, window.location.pathname);
+          } else {
+            // Prevent scrolling by storing the page's current scroll offset
+            var scroll = {
+              top: document.body.scrollTop,
+              left: document.body.scrollLeft
+            };
+            window.location.hash = '';
+            // Restore the scroll offset, should be flicker free
+            document.body.scrollTop = scroll.top;
+            document.body.scrollLeft = scroll.left;
+          }
+        }
+        </script>
+
     {% endblock javascript %}
     </body>
 </html>
