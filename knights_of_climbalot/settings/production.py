@@ -22,3 +22,4 @@ X_FRAME_OPTIONS = 'DENY'
 
 # Location of static files. This path must be an absolute path.
 STATIC_ROOT = "/home/dusnei/knightsofclimbalot.com/public/static"
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
