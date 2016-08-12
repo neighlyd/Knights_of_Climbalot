@@ -1,2 +1,4 @@
 *.pyc
 secret_settings.py
+.coverage
+htmlcov
