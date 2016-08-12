@@ -10,7 +10,12 @@ Knights of Climbalot
   <div class="container">
     {% block jumbotron %}
     {% if user.is_authenticated %}
-      <h1>Hey, {{ user.first_name }}</h1>
+      {% if user.first_name %}
+        <h1>Hey, {{ user.first_name }}</h1>
+      {% else %}
+        <h1>Hey!</h1>
+        <p> Well, this is embarassing, but it seems that I don't actually know your name.</p>
+      {% endif %}
     {% else %}
       <h1>Hey, folks!</h1>
     {% endif %}
