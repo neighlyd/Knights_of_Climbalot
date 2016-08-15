@@ -13,8 +13,7 @@ Knights of Climbalot
         {% if user.first_name %}
           <h1>Hey, {{ user.first_name }}!</h1>
         {% else %}
-          <h1>Hey!</h1>
-          <p> Well, this is embarassing, but it seems that I don't actually know your name.</p>
+          <h1>Hey there, {{user.username}}</h1>
         {% endif %}
       {% else %}
         <h1>Hey, folks!</h1>
