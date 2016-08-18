@@ -16,6 +16,13 @@ To see what settings are necessary for django-allauth to work, see
 http://goo.gl/QPKJFY
 """
 
+'''
+We are using the django-widget-tweaks add-on to modify form fields in the HTML with custom tags.
+For more information about django-widget-tweaks, see
+https://goo.gl/rCPU9U
+'''
+
+
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -32,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'index',
     'climbalot',
+    'widget_tweaks'
 ]
 
 # Allauth apps.
@@ -116,9 +124,15 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
 
 USE_TZ = True
+
+# You can customize date inputs, but you must turn USE_L10N off before they will stick, since L10N gets priority.
+# L10N localizes date formats, but doesn't seem to do so very well (e.g. Pacific timezone is rendering dates as YYYY-mm-dd, which no one in pacific time uses).
+DATE_INPUT_FORMATS = [
+    '%m/%d/%Y', '%m/%d/%y'
+]
 
 
 # Static files (CSS, JavaScript, Images)

@@ -10,3 +10,6 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 # This value must equal the site's ID in Django's database.
 # The documentation on this setting is absolute shit. See http://goo.gl/mqtNGn
 SITE_ID = 2
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'

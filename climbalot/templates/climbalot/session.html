@@ -1,3 +1,37 @@
 {% extends 'base.html' %}
+{% load static from staticfiles %}
+{% load widget_tweaks %}
 
-This is the session view template for Session ID {{ session.id }}
+
+{% block css_styles %}
+{{ block.super }}
+  <link rel='stylesheet' href="{% static 'css/bootstrap-datepicker3.css' %}">
+{% endblock css_styles %}
+
+{% block content %}
+This is the session view template for Session ID {{ session.id }} {{session.gym}} belonging to {{session.monkey.name}}.
+
+<form action='' method='post'>
+  {% csrf_token %}
+  <div class='col-sm-3'>
+    {{ form.session_date | add_class:"dateinput" }}
+  </div>
+  <button type='submit' class='btn'>Button</button>
+</form>
+{% endblock content %}
+
+{% block javascript %}
+{{ block.super }}
+  <script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
+  <script>
+    $(document).ready(function(){
+        $('.dateinput').datepicker({
+          format: 'mm/dd/yyyy',
+          todayBtn: 'linked',
+          autoClose: true,
+          todayHighlight: true,
+        });
+      }
+    )
+  </script>
+{% endblock javascript %}

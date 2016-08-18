@@ -64,10 +64,20 @@ CLIMBING_Y_GRADES = (
 )
 
 # Create your models here.
+class Gym(models.Model):
+    gym = models.CharField(max_length = 25)
+
+    def __str__(self):
+        return self.gym
+
 class Monkey(models.Model):
     player = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField("monkey name", max_length = 25, help_text="Name your monkey")
+    # Validate crest image size through a script on upload. See http://goo.gl/fyTaqd
+    # Need to rework image upload. Media serving not working properly.
+    crest = models.ImageField(upload_to='crests/')
     date_created = models.DateTimeField(auto_now_add = True)
+    home_gym = models.ForeignKey(Gym)
     experience = models.IntegerField(default = 0, validators = [MinValueValidator(0)])
     level = models.IntegerField(default = 1, validators = [MinValueValidator(1)])
     main_color_grade = models.CharField(max_length = 1,choices = BOULDER_COLOR_GRADES, blank = True)
@@ -80,12 +90,6 @@ class Monkey(models.Model):
     def create_session(self):
         return Session()#Args will go here.
 
-class Gym(models.Model):
-    gym = models.CharField(max_length = 25)
-
-    def __str__(self):
-        return self.gym
-
 class Quest(models.Model):
     QUEST_STATUS = (
         ('A', 'Active'),
@@ -93,7 +97,8 @@ class Quest(models.Model):
         ('F', 'Failed'),
     )
 
-    start_date = models.DateTimeField(auto_now_add = True)
+    start_date = models.DateField()
+    monkey = models.ForeignKey(Monkey, on_delete=models.CASCADE)
     name = models.CharField(max_length = 100)
     short_description = models.TextField()
     c_value = models.CharField(max_length = 1, choices = BOULDER_COLOR_GRADES, blank = True)
@@ -103,17 +108,16 @@ class Quest(models.Model):
     days_open = models.IntegerField(default = 1)
     status = models.CharField(max_length = 1, choices = QUEST_STATUS)
 
+    def __str__(self):
+        return self.name
 
 
 # Session class must come after Quest class, since it references it as a foreign key.
 class Session(models.Model):
     monkey = models.ForeignKey(Monkey, on_delete=models.CASCADE)
-    session_date = models.DateTimeField(auto_now_add = True)
+    session_date = models.DateField()
     gym = models.ForeignKey(Gym)
-    #v_entry = models.ForeignKey(V_Routes, blank = True, null = True)
-    #c_entry = models.ForeignKey(C_Routes, blank = True, null = True)
-    #y_entry = models.ForeignKey(Y_Routes, blank = True, null = True)
-    #extra_points = models.IntegerField(default = 0, blank = True, null = True)
+    extra_points = models.IntegerField(default = 0, blank = True, null = True)
     # Map values for yes/no Booleans in forms by using the following: {{ value|yesno: "Yes, No"}}.  For additional information see: https://goo.gl/WvyK6f
     workout = models.BooleanField(default = False)
     # Can pipe through quest status by using : {{ session.quest_<number>_id.status }}. See http://goo.gl/SWjPaZ

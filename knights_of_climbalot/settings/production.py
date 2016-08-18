@@ -24,6 +24,9 @@ X_FRAME_OPTIONS = 'DENY'
 STATIC_ROOT = "/home/dusnei/knightsofclimbalot.com/public/static"
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
+MEDIA_ROOT = "/home/dusnei/knights_of_climbalot.com/public/media"
+MEDIA_URL = '/media/'
+
 
 # SITE_ID is used by django frameworks. To equal the ID of the site in the admin database under Sites/sites
 # This value must equal the site's ID in Django's database.

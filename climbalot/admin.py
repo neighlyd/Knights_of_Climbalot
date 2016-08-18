@@ -32,7 +32,24 @@ class SessionViewer(admin.ModelAdmin):
         YInline,
     )
 
-admin.site.register(Monkey)
+class QuestInline(admin.StackedInline):
+    model = Quest
+    extra = 0
+    classes = ('collapse',)
+
+class SessionInline(admin.StackedInline):
+    model = Session
+    extra = 0
+    classes = ('collapse',)
+
+class MonkeyViewer(admin.ModelAdmin):
+    inlines = (SessionInline, QuestInline)
+    readonly_fields = ('date_created',)
+
+class QuestViewer(admin.ModelAdmin):
+    readonly_fields = ('start_date',)
+
+admin.site.register(Monkey, MonkeyViewer)
 admin.site.register(Session, SessionViewer)
 admin.site.register(Gym)
-admin.site.register(Quest)
+admin.site.register(Quest, QuestViewer)
