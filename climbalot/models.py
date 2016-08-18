@@ -103,69 +103,17 @@ class Quest(models.Model):
     days_open = models.IntegerField(default = 1)
     status = models.CharField(max_length = 1, choices = QUEST_STATUS)
 
-# Class for inputing scores for sessions involving Colored Bouldering Route ranks (using SBP scale)
-class C_Routes(models.Model):
-    yellow = models.IntegerField(default=0)
-    green = models.IntegerField(default=0)
-    red = models.IntegerField(default=0)
-    blue = models.IntegerField(default=0)
-    orange = models.IntegerField(default=0)
-    purple = models.IntegerField(default=0)
-    black = models.IntegerField(default=0)
 
-    class Meta:
-        verbose_name_plural = 'C-Routes'
-
-# Class for inputing scores for sessions involving V Bouldering Route ranks.
-class V_Routes(models.Model):
-    v1 = models.IntegerField(default=0)
-    v2 = models.IntegerField(default=0)
-    v3 = models.IntegerField(default=0)
-    v4 = models.IntegerField(default=0)
-    v5 = models.IntegerField(default=0)
-    v6 = models.IntegerField(default=0)
-    v7 = models.IntegerField(default=0)
-    v8 = models.IntegerField(default=0)
-    v9 = models.IntegerField(default=0)
-    v10 = models.IntegerField(default=0)
-
-    class Meta:
-        verbose_name_plural = 'V-Routes'
-
-# Class for inputing scores for sessions involving Yosemite Climbing Route ranks.
-class Y_Routes(models.Model):
-    # fields are prepended with c (for climbing) because Django gets confused if fields start with numbers.
-    c5_7 = models.IntegerField(default=0)
-    c5_8_neg = models.IntegerField(default=0)
-    c5_8_pos = models.IntegerField(default=0)
-    c5_9_neg = models.IntegerField(default=0)
-    c5_9_pos = models.IntegerField(default=0)
-    c5_10_a = models.IntegerField(default=0)
-    c5_10_b = models.IntegerField(default=0)
-    c5_10_c = models.IntegerField(default=0)
-    c5_10_d = models.IntegerField(default=0)
-    c5_11_a = models.IntegerField(default=0)
-    c5_11_b = models.IntegerField(default=0)
-    c5_11_c = models.IntegerField(default=0)
-    c5_11_d = models.IntegerField(default=0)
-    c5_12_a = models.IntegerField(default=0)
-    c5_12_b = models.IntegerField(default=0)
-    c5_12_c = models.IntegerField(default=0)
-    c5_12_d = models.IntegerField(default=0)
-
-    class Meta:
-        verbose_name_plural = 'Y-Routes'
 
 # Session class must come after Quest class, since it references it as a foreign key.
-# It must also come after entry tables, since it is in a one-to-one relationship with them.
 class Session(models.Model):
     monkey = models.ForeignKey(Monkey, on_delete=models.CASCADE)
     session_date = models.DateTimeField(auto_now_add = True)
     gym = models.ForeignKey(Gym)
-    v_entry = models.OneToOneField(V_Routes, blank = True, null = True)
-    c_entry = models.OneToOneField(C_Routes, blank = True, null = True)
-    y_entry = models.OneToOneField(Y_Routes, blank = True, null = True)
-    extra_points = models.IntegerField(default = 0, blank = True, null = True)
+    #v_entry = models.ForeignKey(V_Routes, blank = True, null = True)
+    #c_entry = models.ForeignKey(C_Routes, blank = True, null = True)
+    #y_entry = models.ForeignKey(Y_Routes, blank = True, null = True)
+    #extra_points = models.IntegerField(default = 0, blank = True, null = True)
     # Map values for yes/no Booleans in forms by using the following: {{ value|yesno: "Yes, No"}}.  For additional information see: https://goo.gl/WvyK6f
     workout = models.BooleanField(default = False)
     # Can pipe through quest status by using : {{ session.quest_<number>_id.status }}. See http://goo.gl/SWjPaZ
@@ -182,3 +130,61 @@ class Session(models.Model):
 
     class Meta:
         ordering = ['-session_date']
+
+
+
+# Class for inputing scores for sessions involving Colored Bouldering Route ranks (using SBP scale)
+class C_Routes(models.Model):
+    session = models.OneToOneField(Session, on_delete=models.CASCADE, blank = True, null = True)
+    yellow = models.IntegerField(default=0)
+    green = models.IntegerField(default=0)
+    red = models.IntegerField(default=0)
+    blue = models.IntegerField(default=0)
+    orange = models.IntegerField(default=0)
+    purple = models.IntegerField(default=0)
+    black = models.IntegerField(default=0)
+
+    class Meta:
+        verbose_name_plural = 'C-Routes'
+
+# Class for inputing scores for sessions involving V Bouldering Route ranks.
+class V_Routes(models.Model):
+    session = models.OneToOneField(Session, on_delete=models.CASCADE, blank = True, null = True)
+    v1 = models.IntegerField(default=0)
+    v2 = models.IntegerField(default=0)
+    v3 = models.IntegerField(default=0)
+    v4 = models.IntegerField(default=0)
+    v5 = models.IntegerField(default=0)
+    v6 = models.IntegerField(default=0)
+    v7 = models.IntegerField(default=0)
+    v8 = models.IntegerField(default=0)
+    v9 = models.IntegerField(default=0)
+    v10 = models.IntegerField(default=0)
+
+    class Meta:
+        verbose_name_plural = 'V-Routes'
+
+# Class for inputing scores for sessions involving Yosemite Climbing Route ranks.
+class Y_Routes(models.Model):
+    session = models.OneToOneField(Session, on_delete=models.CASCADE, blank = True, null = True)
+    # fields are prepended with c (for climbing) because Django gets confused if fields start with numbers.
+    c5_7 = models.IntegerField('5.7', default=0)
+    c5_8_neg = models.IntegerField('5.8-',default=0)
+    c5_8_pos = models.IntegerField('5.8+',default=0)
+    c5_9_neg = models.IntegerField('5.9-', default=0)
+    c5_9_pos = models.IntegerField('5.9+', default=0)
+    c5_10_a = models.IntegerField('5.10a', default=0)
+    c5_10_b = models.IntegerField('5.10b', default=0)
+    c5_10_c = models.IntegerField('5.10c', default=0)
+    c5_10_d = models.IntegerField('5.10d', default=0)
+    c5_11_a = models.IntegerField('5.11a', default=0)
+    c5_11_b = models.IntegerField('5.11b', default=0)
+    c5_11_c = models.IntegerField('5.11c', default=0)
+    c5_11_d = models.IntegerField('5.11d', default=0)
+    c5_12_a = models.IntegerField('5.12a', default=0)
+    c5_12_b = models.IntegerField('5.12b', default=0)
+    c5_12_c = models.IntegerField('5.12c', default=0)
+    c5_12_d = models.IntegerField('5.12d', default=0)
+
+    class Meta:
+        verbose_name_plural = 'Y-Routes'
