@@ -132,6 +132,9 @@ class Session(models.Model):
     def __str__(self):
         return "%s at %s on %s" % (self.monkey, self.gym, self.session_date.strftime('%m/%d/%Y'))
 
+    def update_exp(self):
+        current_exp = self.session_exp
+
     class Meta:
         ordering = ['-session_date']
 

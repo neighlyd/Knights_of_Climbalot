@@ -22,8 +22,15 @@
                 padding-bottom: 20px;
             }
         </style>
-        <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}">
         <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+        <!-- Material Design fonts -->
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
+
+        <!-- Material Design Bootstrap Theme -->
+        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-material-design.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/ripples.min.css' %}">
 
         <!-- Fontawesome stuff.-->
         <link rel="stylesheet" href="{% static 'fontawesome/css/font-awesome.min.css' %}">
@@ -35,7 +42,7 @@
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <nav class="navbar navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -89,7 +96,7 @@
 
   {% block jumbotron %}
   {% endblock jumbotron %}
-
+<br>
   <div class="container">
     {% block content %}
     {% endblock content %}
@@ -102,6 +109,8 @@
       <script src="{% static 'js/bootstrap.min.js' %}"></script>
 
       <script src="{% static 'js/main.js' %}"></script>
+
+      <script src="{% static 'js/material.min.js' %}"></script>
 
       <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
       <script>
