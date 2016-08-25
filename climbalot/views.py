@@ -1,10 +1,47 @@
+from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from climbalot.models import Session, Monkey, C_Routes
 from climbalot.forms import SessionInputForm, C_Route_Formset
 
-# Create your views here.
+# API Imports
+from rest_framework import mixins, generics
+from climbalot.serializers import MonkeySerializer, UserSerializer, SessionSerializer, C_RoutesSerializer
 
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class MonkeyList(generics.ListCreateAPIView):
+    queryset = Monkey.objects.all()
+    serializer_class = MonkeySerializer
+
+class MonkeyDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Monkey.objects.all()
+    serializer_class = MonkeySerializer
+
+class SessionList(generics.ListCreateAPIView):
+    queryset = Session.objects.all()
+    serializer_class = SessionSerializer
+
+class SessionDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Session.objects.all()
+    serializer_class = SessionSerializer
+
+class C_RouteList(generics.ListCreateAPIView):
+    queryset = C_Routes.objects.all()
+    serializer_class = C_RoutesSerializer
+
+class C_RouteDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = C_Routes.objects.all()
+    serializer_class = C_RoutesSerializer
+
+# non-API views
 
 @login_required
 def new_session(request):
@@ -24,7 +61,6 @@ def new_session(request):
         context['form'] = SessionInputForm()
         context['c_route_formset'] = C_Route_Formset()
     return render(request, 'climbalot/session.html', context)
-
 
 @login_required
 def edit_session(request, pk):

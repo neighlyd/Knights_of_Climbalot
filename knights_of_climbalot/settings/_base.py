@@ -37,9 +37,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'index',
+    'widget_tweaks',
+    'rest_framework'
+]
+
+# Internal apps
+
+INSTALLED_APPS += [
     'climbalot',
-    'widget_tweaks'
+    'index'
 ]
 
 # Allauth apps.

@@ -16,10 +16,11 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
+from climbalot import views as climbalot_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'', include('index.urls')),
+    url(r'^', include('index.urls')),
     url(r'^sessions/', include('climbalot.urls'))
 ]
 
@@ -30,6 +31,13 @@ urlpatterns += [
     url(r'^accounts/logout/', auth_views.logout, {'next page' : '/'}, name='logout')
 ]
 
+# API calls
+
+urlpatterns += [
+    url(r'^api/', include('api.api'), name='api')
+]
+
+# routing for media files in development server
 from django.conf import settings
 
 if settings.DEBUG:

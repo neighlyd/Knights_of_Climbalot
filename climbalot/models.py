@@ -71,7 +71,7 @@ class Gym(models.Model):
         return self.gym
 
 class Monkey(models.Model):
-    player = models.ForeignKey(User, on_delete=models.CASCADE)
+    player = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField("monkey name", max_length = 25, help_text="Name your monkey")
     # Validate crest image size through a script on upload. See http://goo.gl/fyTaqd
     # Need to rework image upload. Media serving not working properly.
