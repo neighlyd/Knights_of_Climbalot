@@ -11,3 +11,4 @@ Pillow==3.3.0
 python3-openid==3.0.10
 requests==2.11.0
 requests-oauthlib==0.6.2
+drf-nested-routers==0.11.1

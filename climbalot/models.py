@@ -75,14 +75,14 @@ class Monkey(models.Model):
     name = models.CharField("monkey name", max_length = 25, help_text="Name your monkey")
     # Validate crest image size through a script on upload. See http://goo.gl/fyTaqd
     # Need to rework image upload. Media serving not working properly.
-    crest = models.ImageField(upload_to='crests/')
+    crest = models.ImageField(upload_to='crests/', blank = True, null = True)
     date_created = models.DateTimeField(auto_now_add = True)
     home_gym = models.ForeignKey(Gym)
     experience = models.IntegerField(default = 0, validators = [MinValueValidator(0)])
     level = models.IntegerField(default = 1, validators = [MinValueValidator(1)])
-    main_color_grade = models.CharField(max_length = 1,choices = BOULDER_COLOR_GRADES, blank = True)
-    main_v_grade = models.CharField(max_length = 3, choices = BOULDER_V_GRADES, blank = True)
-    main_y_grade = models.CharField(max_length = 5,choices = CLIMBING_Y_GRADES, blank = True)
+    main_color_grade = models.CharField(max_length = 1,choices = BOULDER_COLOR_GRADES, blank = True, null=True)
+    main_v_grade = models.CharField(max_length = 3, choices = BOULDER_V_GRADES, blank = True, null=True)
+    main_y_grade = models.CharField(max_length = 5,choices = CLIMBING_Y_GRADES, blank = True, null=True)
 
     def __str__(self):
         return self.name
@@ -114,7 +114,7 @@ class Quest(models.Model):
 
 # Session class must come after Quest class, since it references it as a foreign key.
 class Session(models.Model):
-    monkey = models.ForeignKey(Monkey, on_delete=models.CASCADE)
+    monkey = models.ForeignKey(Monkey, on_delete=models.CASCADE, related_name='sessions')
     session_date = models.DateField()
     gym = models.ForeignKey(Gym)
     extra_points = models.IntegerField(default = 0, blank = True, null = True)

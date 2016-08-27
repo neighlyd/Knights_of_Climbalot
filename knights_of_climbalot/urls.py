@@ -34,7 +34,7 @@ urlpatterns += [
 # API calls
 
 urlpatterns += [
-    url(r'^api/', include('api.api'), name='api')
+    url(r'^api/', include('api.urls'), name='api')
 ]
 
 # routing for media files in development server

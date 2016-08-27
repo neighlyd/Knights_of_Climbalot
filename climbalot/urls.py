@@ -3,6 +3,6 @@ from climbalot import views
 
 
 urlpatterns = [
-    url(r'^new/$', views.new_session)
-    url(r'/(?P<pk>\d+)/$', views.edit_session)
+    url(r'^new/$', views.new_session),
+    url(r'^(?P<pk>\d+)/$', views.edit_session)
 ]

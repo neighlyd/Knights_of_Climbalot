@@ -152,6 +152,12 @@ ACCOUNT_EMAIL_VERIFICATION = "none"
 SOCIAL_ACCOUNT_QUERY_EMAIL = True
 LOGIN_REDIRECT_URL = "/"
 
+# Settings for rest_framework
+
+REST_FRAMEWORK = {
+    'PAGE_SIZE': 10
+}
+
 # SECRET_KEY and Database information stored in secret_settings.py which is excluded from git through .gitignore.
 # Import SECRET_KEY and Database information. Ensure that the secret_settings.py file is the correct one before using.
 
