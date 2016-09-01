@@ -38,14 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'widget_tweaks',
-    'rest_framework'
+    'rest_framework',
 ]
 
 # Internal apps
 
 INSTALLED_APPS += [
-    'climbalot',
-    'index'
+    'climbalot'
 ]
 
 # Allauth apps.
@@ -147,10 +146,25 @@ DATE_INPUT_FORMATS = [
 STATIC_URL = '/static/'
 
 # Login and Account requirements, as well as Login redirect.
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "none"
-SOCIAL_ACCOUNT_QUERY_EMAIL = True
+SOCIALACCOUNT_QUERY_EMAIL = True
 LOGIN_REDIRECT_URL = "/"
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'SCOPE': ['email', 'public_profile'],
+        'METHOD': 'js_sdk',
+        'FIELDS': [
+            'id',
+            'email',
+            'first_name',
+            'last_name'
+        ]
+    }
+}
 
 # Settings for rest_framework
 

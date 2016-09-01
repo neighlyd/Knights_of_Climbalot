@@ -1,9 +1,9 @@
 from rest_framework import permissions
 from climbalot.models import Monkey
 
-class IsOwnerOrReadOnly(permissions.BasePermission):
+class IsUserOrReadOnly(permissions.BasePermission):
 
-    def has_object_permission(self, request, view, obj):
+    def has_object_permission(self, request, view, obj=None):
 
         if request.method in permissions.SAFE_METHODS:
             return True
@@ -18,5 +18,5 @@ class IsMonkeyOrReadOnly(permissions.BasePermission):
             return True
 
         player_id = request.user
-        monkey = Monkey.objects.filter(player = player_id)
+        monkey = Monkey.objects.get(player = player_id)
         return obj.monkey == monkey

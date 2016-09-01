@@ -46,10 +46,8 @@ class MonkeyViewer(admin.ModelAdmin):
     inlines = (SessionInline, QuestInline)
     readonly_fields = ('date_created',)
 
-class QuestViewer(admin.ModelAdmin):
-    readonly_fields = ('start_date',)
 
 admin.site.register(Monkey, MonkeyViewer)
 admin.site.register(Session, SessionViewer)
 admin.site.register(Gym)
-admin.site.register(Quest, QuestViewer)
+admin.site.register(Quest)

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Knights of Climbalot
+{% endblock title %}
+
+{% block jumbotron %}
+<div class="container" style="padding-top: 50px">
+  <div class="jumbotron">
+    <h1>Welcome to Knights of Climbalot!</h1>
+    <p>We will be entering our beta-test period soon.</p>
+    <p><a class="btn btn-success btn-raised" data-toggle="modal" data-target="#infoModal">Learn more &raquo;</a></p>
+  </div>
+</div>
+{% endblock jumbotron %}
+
+{% block content %}
+<!-- info Modal -->
+<div id="infoModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal Content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">X</button>
+        <h4 class="modal-title">Knights of Climbalot</h4>
+      </div>
+      <div class="modal-body">
+        <p>Knights of Climbalot is a community-created and tested game to help climbers of all skill levels challenge themselves and improve, all while having fun!</p>
+      </div>
+    </div>
+  </div>
+</div> <!-- End of Login Modal -->
+{% endblock content %}

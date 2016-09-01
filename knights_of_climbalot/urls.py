@@ -20,15 +20,14 @@ from climbalot import views as climbalot_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', include('index.urls')),
-    url(r'^sessions/', include('climbalot.urls'))
+    url(r'^', include('climbalot.urls')),
 ]
 
 # Authentication URLs go here. Since we are using allauth for our account management, we set up a base accounts url that redirects to the urls provided by the allauth module.
 
 urlpatterns += [
     url(r'^accounts/', include('allauth.urls')),
-    url(r'^accounts/logout/', auth_views.logout, {'next page' : '/'}, name='logout')
+    url(r'^accounts/logout/', auth_views.logout, {'next page' : '/'}, name='logout'),
 ]
 
 # API calls

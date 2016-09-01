@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="col-xs-6 col-xs-offset-3">
-<p>This is a logout template placeholder.</p>
+<div class="well clearfix">
+<div class="col-md-6 col-md-offset-3">
 
 <h1>Are you sure you want to sign out of Knights of Climbalot{% if user.first_name %}, {{ user.first_name }}?{% else %}, {{ user.username }}?{% endif %}</h1>
 
@@ -11,7 +11,8 @@
   {% if redirect_field_value %}
   <input type="hidden" name="{{redirect_field_name}}" value="{{redirect_field_value}}"/>
   {% endif %}
-  <button class="btn btn-primary" type="submit">Sign Out</button>
+  <button class="btn btn-danger btn-raised pull-right" type="submit">Sign Out</button>
 </form>
+</div>
 </div>
 {% endblock content %}

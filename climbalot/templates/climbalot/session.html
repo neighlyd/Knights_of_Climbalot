@@ -10,41 +10,65 @@
 
 {% block content %}
 This is the session view template for {{monkey.name}}.
-<div class='col-sm-6'>
+<div class='col-md-9'>
 <div class="well bs-component">
-<form class='form-horizontal' action='' method='post'>
+<form class='form-inline' action='' method='post'>
   {% csrf_token %}
   <fieldset>
-  <div class='form-group'>
-    <label class="col-sm-2 control-label">Session Date:</label>
-    <br>
-    <div class='col-sm-10'>{{ form.session_date | add_class:'form-control dateinput' }}</div>
+    <div class='form-group'>
+    <label class='col-md-1'>Session Date:</label>
+    <div class='col-md-3'>{{ form.session_date | add_class:'form-control dateinput' }}</div>
+    <label class='col-md-1'>Gym:</label>
+    <div class='col-md-3'>{{ form.gym | add_class:'form-control' }}</div>
+    <label class='col-md-1'>Extra Points:</label>
+    <div class='col-md-3'>{{ form.extra_points | add_class:'form-control' }}</div>
   </div>
   <div class='form-group'>
-    <label class='col-sm-2 control-label'>Gym:</label>
-    <br>
-    <div class='col-sm-10'>
-    {{ form.gym | add_class:'form-control' }}
-  </div>
+    <label class='col-md-1'>Workout:</label>
+    <div class='col-md-3'>{{ form.workout | attr:'type:checkbox'}}</div>
   </div>
   <div class='form-group'>
-    <label class='col-sm-2 control-label'>Extra Points:</label>
-    <br>
-    <div class='col-sm-10'>
-    {{ form.extra_points | add_class:'form-control' }}
+    <label class='col-md-2'>Quest One:</label>
+    <div class='col-md-10'>
+      {{ form.quest_one_id | add_class:'form-control' }}
     </div>
   </div>
   <div class='form-group'>
-    <label class='col-sm-2 control-label'>Workout:</label>
-    <br>
-    {{ form.workout | attr:'type:checkbox'}}
-    <label>Quest One:</label> {{ form.quest_one_id }}
-    <label>Quest One Attempts:</label> {{form.quest_one_attempts}}
-    <label>Quest Two:</label> {{ form.quest_two_id }}
-    <label>Quest Two Attempts:</label> {{form.quest_two_attempts}}
-    <label>Quest Three:</label> {{ form.quest_three_id }}
-    <label>Quest Three Attempts:</label> {{form.quest_three_attempts}}
-    <label>Current Session Exp:</label>{{form.session_exp}}
+    <label class='col-md-2'>Quest One Attempts:</label>
+    <div class='col-md-10'>
+      {{form.quest_one_attempts | add_class:'form-control' }}
+    </div>
+  </div>
+  <div class='form-group'>
+    <label class='col-md-2'>Quest Two:</label>
+    <div class='col-md-10'>
+      {{ form.quest_two_id | add_class:'form-control' }}
+    </div>
+  </div>
+  <div class='form-group'>
+    <label class='col-md-2'>Quest Two Attempts:</label>
+    <div class='col-md-10'>
+      {{form.quest_two_attempts | add_class:'form-control' }}
+    </div>
+  </div>
+  <div class='form-group'>
+    <label class='col-md-2'>Quest Three:</label>
+    <div class='col-md-10'>
+      {{ form.quest_three_id | add_class:'form-control' }}
+    </div>
+  </div>
+  <div class='form-group'>
+    <label class='col-md-2'>Quest Three Attempts:</label>
+    <div class='col-md-10'>
+      {{form.quest_three_attempts | add_class:'form-control' }}
+    </div>
+  </div>
+  <div class='form-group'>
+    <label class='col-md-2'>Current Session Exp:</label>
+    <div class='col-md-10'>
+      {{form.session_exp | add_class:'form-control' }}
+    </div>
+  </div>
     <br>
     <br>
     {{ c_route_formset.as_table}}

@@ -6,59 +6,59 @@ from django.core.validators import MinValueValidator
 
 # Grade Choices are defined outside of classes because two classes use their values (i.e. Monkey and Session).
 BOULDER_COLOR_GRADES = (
-    ('Y', 'Yellow'),
-    ('G', 'Green'),
-    ('R', 'Red'),
-    ('B', 'Blue'),
-    ('O', 'Orange'),
-    ('P', 'Purple'),
-    ('K', 'Black'),
+    (1, 'Yellow'),
+    (2, 'Green'),
+    (3, 'Red'),
+    (4, 'Blue'),
+    (5, 'Orange'),
+    (6, 'Purple'),
+    (7, 'Black'),
 )
 
 BOULDER_V_GRADES = (
-    ('V1', 'V1'),
-    ('V2', 'V2'),
-    ('V3', 'V3'),
-    ('V4', 'V4'),
-    ('V5', 'V5'),
-    ('V6', 'V6'),
-    ('V7', 'V7'),
-    ('V8', 'V8'),
-    ('V9', 'V9'),
-    ('V10', 'V10'),
+    (1, 'V1'),
+    (2, 'V2'),
+    (3, 'V3'),
+    (4, 'V4'),
+    (5, 'V5'),
+    (6, 'V6'),
+    (7, 'V7'),
+    (8, 'V8'),
+    (9, 'V9'),
+    (10, 'V10'),
 )
 
 CLIMBING_Y_GRADES = (
-    ('5.7', '5.7'),
+    (1, '5.7'),
     ('5.8', (
-            ('5.8-', '5.8-'),
-            ('5.8+', '5.8+'),
+            (2, '5.8-'),
+            (3, '5.8+'),
         )
     ),
     ('5.9', (
-            ('5.9-', '5.9-'),
-            ('5.9+', '5.9+'),
+            (4, '5.9-'),
+            (5, '5.9+'),
         )
     ),
     ('5.10', (
-            ('5.10a', '5.10a'),
-            ('5.10b', '5.10b'),
-            ('5.10c', '5.10c'),
-            ('5.10d', '5.10d'),
+            (6, '5.10a'),
+            (7, '5.10b'),
+            (8, '5.10c'),
+            (9, '5.10d'),
         )
     ),
     ('5.11', (
-            ('5.11a', '5.11a'),
-            ('5.11b', '5.11b'),
-            ('5.11c', '5.11c'),
-            ('5.11d', '5.11d'),
+            (10, '5.11a'),
+            (11, '5.11b'),
+            (12, '5.11c'),
+            (13, '5.11d'),
         )
     ),
     ('5.12', (
-            ('5.12a', '5.12a'),
-            ('5.12b', '5.12b'),
-            ('5.12c', '5.12c'),
-            ('5.12d', '5.12d'),
+            (14, '5.12a'),
+            (15, '5.12b'),
+            (16, '5.12c'),
+            (17, '5.12d'),
         )
     ),
 )
@@ -72,7 +72,7 @@ class Gym(models.Model):
 
 class Monkey(models.Model):
     player = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField("monkey name", max_length = 25, help_text="Name your monkey")
+    name = models.CharField("monkey name", max_length = 25, help_text="Name your monkey", unique=True)
     # Validate crest image size through a script on upload. See http://goo.gl/fyTaqd
     # Need to rework image upload. Media serving not working properly.
     crest = models.ImageField(upload_to='crests/', blank = True, null = True)
@@ -80,15 +80,18 @@ class Monkey(models.Model):
     home_gym = models.ForeignKey(Gym)
     experience = models.IntegerField(default = 0, validators = [MinValueValidator(0)])
     level = models.IntegerField(default = 1, validators = [MinValueValidator(1)])
-    main_color_grade = models.CharField(max_length = 1,choices = BOULDER_COLOR_GRADES, blank = True, null=True)
-    main_v_grade = models.CharField(max_length = 3, choices = BOULDER_V_GRADES, blank = True, null=True)
-    main_y_grade = models.CharField(max_length = 5,choices = CLIMBING_Y_GRADES, blank = True, null=True)
+    main_color_grade = models.IntegerField(choices = BOULDER_COLOR_GRADES, blank = True, null=True)
+    main_v_grade = models.IntegerField(choices = BOULDER_V_GRADES, blank = True, null=True)
+    main_y_grade = models.IntegerField(choices = CLIMBING_Y_GRADES, blank = True, null=True)
 
     def __str__(self):
         return self.name
 
     def create_session(self):
         return Session()#Args will go here.
+
+    def session_count(self):
+        return self.sessions.count()
 
 class Quest(models.Model):
     QUEST_STATUS = (
@@ -98,7 +101,7 @@ class Quest(models.Model):
     )
 
     start_date = models.DateField()
-    monkey = models.ForeignKey(Monkey, on_delete=models.CASCADE)
+    monkey = models.ForeignKey(Monkey, on_delete=models.CASCADE, related_name='quests')
     name = models.CharField(max_length = 100)
     short_description = models.TextField()
     c_value = models.CharField(max_length = 1, choices = BOULDER_COLOR_GRADES, blank = True)
@@ -109,7 +112,7 @@ class Quest(models.Model):
     status = models.CharField(max_length = 1, choices = QUEST_STATUS)
 
     def __str__(self):
-        return self.name
+        return "%s: A Quest for %s" % (self.name, self.monkey)
 
 
 # Session class must come after Quest class, since it references it as a foreign key.
@@ -132,8 +135,50 @@ class Session(models.Model):
     def __str__(self):
         return "%s at %s on %s" % (self.monkey, self.gym, self.session_date.strftime('%m/%d/%Y'))
 
+    def route_experience(self, pk, grade, ranks):
+        exp = 0
+        i = 3
+        if grade == 1:
+            for rank in ranks[grade+1:]:
+                exp += rank * i
+                i += 3
+            return exp
+        else:
+            exp += ranks[grade]
+            for rank in ranks[grade+1:]:
+                exp += rank*i
+                i += 3
+            return exp
+
     def update_exp(self):
-        current_exp = self.session_exp
+        new_session_exp = 0
+        current_session_exp = self.session_exp
+        new_session_exp += self.extra_points
+        if self.workout != False:
+            new_session_exp += 20
+        if hasattr(self, 'c_routes'):
+            grade = self.monkey.main_color_grade
+            ranks = list(C_Routes.objects.values_list().filter(session=self.pk)).pop()
+            new_session_exp += self.route_experience(self.pk, grade, ranks)
+        if hasattr(self, 'v_routes'):
+            grade = self.monkey.main_v_grade
+            ranks = list(V_Routes.objects.values_list().filter(session=self.pk)).pop()
+            new_session_exp += self.route_experience(self.pk, grade, ranks)
+        if hasattr(self, 'y_routes'):
+            grade = self.monkey.main_y_grade
+            ranks = list(Y_Routes.objects.values_list().filter(session=self.pk)).pop()
+            new_session_exp += self.route_experience(self.pk, grade, ranks)
+        # save the new session experience total to the session.
+        self.session_exp = new_session_exp
+        # find the difference between the previous session exp and the new session exp and add that amount to monkey
+        # this will allow users to modify past sessions and have their changes accurately reflected in their total exp.
+        new_session_exp -= current_session_exp
+        self.monkey.experience += new_session_exp
+        self.monkey.save(update_fields=['experience'])
+
+    def save(self, *args, **kwargs):
+        self.update_exp()
+        super(Session, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ['-session_date']

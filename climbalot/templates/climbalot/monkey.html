@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="well clearfix">
+  <div class='col-md-3 text-center'>
+    <h3><u>Experience</u></h3>
+    <h4>{{ monkey.experience }}</h4>
+    <div class='clearfix'>
+      <br>
+      <h4 id='main_color_grade'><u>Main Color Grade:</u></h4>
+      <h4 style="color: {{monkey.get_main_color_grade_display}}">{{ monkey.get_main_color_grade_display}}</h4>
+    </div>
+    <div class='clearfix'>
+      <h4 id='main_v_grade'><u>Main V Grade:</u></h4>
+      <h4>{{ monkey.get_main_v_grade_display }}</h4>
+    </div>
+    <div class='clearfix'>
+      <h4 id='main_climbing_grade'><u>Main Climbing Grade:</u></h4>
+      <h4>{{ monkey.get_main_y_grade_display }}</h4>
+    </div>
+  </div>
+  <div class='col-md-6 text-center'>
+    <h1><u>{{ monkey.name }}</u></h1>
+    <h4>Sessions: {{ monkey.session_count }}</h4>
+    <div class='col-md-8 col-md-offset-2 clearfix'>
+      <a class='btn btn-success btn-raised pull-left' href='{% url "view-all-sessions" monkey_pk=monkey.pk %}'>View Sessions</a>
+      <a class='btn btn-success btn-raised pull-right' href='{% url "new-session" monkey_pk=monkey.pk %}'>Add Session</a>
+    </div>
+    <br>
+    <br>
+  </div>
+  <div class='col-md-3 text-center'>
+    <h3><u>Level</u></h3>
+    <h4>{{ monkey.level }}</h4>
+  </div>
+  <div class='col-md-6 col-md-offset-3 text-center'>
+</div>
+</div>
+{% endblock content %}

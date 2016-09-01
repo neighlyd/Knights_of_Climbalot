@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////
-// ShowHide plugin                               
+// ShowHide plugin
 // Author: Ashley Ford - http://papermashup.com
 // Demo: Tutorial - http://papermashup.com/jquery-show-hide-plugin
-// Built: 19th August 2011                                     
+// Built: 19th August 2011
 ///////////////////////////////////////////////////
 
 (function ($) {
@@ -15,13 +15,13 @@
 			changeText: 0,
 			showText: 'Show',
 			hideText: 'Hide'
-			
+
         };
         var options = $.extend(defaults, options);
 
-        $(this).click(function () {	
-           
-             $('.toggleDiv').slideUp(options.speed, options.easing);	
+        $(this).click(function () {
+
+             $('.toggleDiv').slideUp(options.speed, options.easing);
 			 // this var stores which button you've clicked
              var toggleClick = $(this);
 		     // this reads the rel attribute of the button to determine which div id to toggle
@@ -33,9 +33,9 @@
 		     $(toggleDiv).is(":visible") ? toggleClick.text(options.hideText) : toggleClick.text(options.showText);
 			 }
               });
-		   
+
 		  return false;
-		   	   
+
         });
 
     };

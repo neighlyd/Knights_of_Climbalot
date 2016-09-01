@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static from staticfiles %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="well">
+  <legend> Sign Up</legend>
+  <form class="form-horizontal clearfix" action="" method="post">
+    <fieldset>
+    {% csrf_token %}
+    {% for field in form %}
+      <div class="form-group">
+        <label for="{{ field.id_for_label }}"class="col-md-2"><h4>{{ field.label }}:</h4></label>
+        <div class="col-md-10">{{ field | add_class:'form-control'}}</div>
+      </div>
+    {% endfor %}
+    </fieldset>
+    {% if redirect_field_value %}
+      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+    {% endif %}
+    <button class="btn btn-danger btn-raised pull-left" type="button">Cancel</button>
+    <button class='btn btn-success btn-raised pull-right' type="submit">Sign Up &raquo;</button>
+  </form>
+</div>
+{% endblock content %}

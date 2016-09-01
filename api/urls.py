@@ -1,46 +1,42 @@
 from django.conf.urls import url, include
-from rest_framework.urlpatterns import format_suffix_patterns
 from api import views
+from rest_framework_nested import routers
 
+"""
+Routers for drf-Nested-Routers schema.
+"""
+router=routers.SimpleRouter()
+router.register(r'users', views.UserViewSet, base_name='users')
 
+user_router = routers.NestedSimpleRouter(router, r'users', lookup='user')
+user_router.register(r'monkeys', views.MonkeyViewSet, base_name='monkeys')
 
-# Users URL patterns
+monkey_router = routers.NestedSimpleRouter(user_router, r'monkeys', lookup='monkey')
+monkey_router.register(r'sessions', views.SessionViewSet, base_name='sessions')
+monkey_router.register(r'quests', views.QuestViewSet, base_name='quests')
+monkey_router.register(r'quests.(?P<status>(?i)active|completed|failed)', views.QuestViewSet, base_name='quest_status')
 
-user_urls = [
-    url(r'^$', views.UserList.as_view(), name='user-list'),
-    url(r'^(?P<pk>\d+)/$', views.UserDetail.as_view(), name='user-detail')
-]
+session_router = routers.NestedSimpleRouter(monkey_router, r'sessions', lookup='session')
+session_router.register(r'c_route', views.C_RoutesViewSet, base_name='c_route')
+session_router.register(r'v_route', views.V_RoutesViewSet, base_name='v_route')
+session_router.register(r'y_route', views.Y_RoutesViewSet, base_name='y_route')
 
-monkey_urls = [
-    url(r'^$', views.MonkeyList.as_view(), name='monkey-list'),
-    url(r'^(?P<pk>\d+)/$', views.MonkeyDetail.as_view(), name='monkey-detail'),
-    url(r'^(?P<pk>\d+)/sessions', views.MonkeySessionList.as_view(), name='monkeysession-list'),
-    url(r'^(P<pk>\d+)/quests', views.QuestList.as_view(), name='monkeyquest-list')
-]
-
-session_urls = [
-    url(r'^$', views.SessionList.as_view(), name='session-list'),
-    url(r'^(?P<pk>\d+)/$', views.SessionDetail.as_view(), name='session-detail'),
-    url(r'^(?P<pk>\d+)/c_routes/$', views.SessionCRouteDetail.as_view(), name='session_c_route-detail'),
-    url(r'^(?P<pk>\d+)/v_routes/$', views.SessionVRouteDetail.as_view(), name='session_v_route-detail'),
-    url(r'^(?P<pk>\d+)/y_routes/$', views.SessionYRouteDetail.as_view(), name='session_y_route-detail')
-]
-
-quest_urls = [
-    url(r'^$', views.QuestList.as_view(), name='quest-list'),
-    url(r'^status/(?P<status>[ACF])/$', views.QuestListStatus.as_view(), name='quest-status-list')
-]
 
 urlpatterns = [
-    #url(r'^', include(router.urls)),
-    url(r'users/', include(user_urls)),
-    url(r'monkeys/', include(monkey_urls)),
-    url(r'sessions/', include(session_urls)),
-    url(r'quests/', include(quest_urls))
-    #url(r'(?P<pk>\d+)/sessions$', views.MonkeySessionList.as_view(), name='monkeysessions-list'),
-    #url(r'sessions/(?P<pk>\d+)/c_routes$', views.C_RoutesViewSet.as_view({'get':'list'}), name='sessioncroute-detail')
-    #url(r'sessions/$', views.SessionList.as_view(), name='sessions-list'),
-    #url(r'sessions/(?P<pk>\d+)/$', views.SessionDetail.as_view(), name='sessions-detail')
+    url(r'^', include(router.urls)),
+    url(r'^', include(user_router.urls)),
+    url(r'^', include(monkey_router.urls)),
+    url(r'^', include(session_router.urls))
 ]
 
-#urlpatterns = format_suffix_patterns(urlpatterns)
+
+"""
+URLs for regular REST framework schema.
+Rather than using routers, I explicitly set up the URL paths using regex hooks to grab variables to feed into the views.
+"""
+"""
+urlpatterns = [
+    url(r'^users', views.UserList.as_view(), name='user-list'),
+    url(r'^users/(?P<user_pk>\d+)$', views.UserDetail.as_view(), name='user-detail')
+]
+"""
